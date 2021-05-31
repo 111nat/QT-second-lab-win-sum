@@ -3,6 +3,14 @@
 //#include <QtWidgets/QWidget>
 #include "ui_View.h"
 
+#include <QDialog>
+#include <QSpinBox>
+#include <QGridLayout>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QInputDialog>
+
 #include <QGLWidget>
 #include <QDebug>
 #include <fstream>
@@ -10,6 +18,9 @@
 #include <vector>
 #include <QKeyEvent>
 //#include <QOpenGLWidget>
+
+class DemoDialog;
+
 
 class Data
 {
@@ -124,11 +135,46 @@ public:
             return arr[0];
         }
     }
+
+    void clear_arr()
+    {
+        arr.clear();
+    }
+
+    void data_max_plus()
+    {
+        max += 500;
+    }
+
+    void data_max_minus()
+    {
+        max -= 500;
+    }
+
+    void data_min_plus()
+    {
+        min += 500;
+    }
+
+    void data_min_minus()
+    {
+        min -= 500;
+    }
+
+    void set_max(int newMax)
+    {
+        this->max = newMax;
+    }
+    void set_min(int newMin)
+    {
+        this->min = newMin;
+    }
 };
 
 class View : public QGLWidget
 {
     Q_OBJECT
+        
 
 public:
     View(QWidget*parent = Q_NULLPTR);
@@ -138,12 +184,15 @@ public:
     void paintGL();
 
     void VisualizationQuads();
-    void VizualizationTexture() {};
-    void VisualizationQuadStrip() {};
+    void VizualizationTexture();
+    void VisualizationQuadStrip();
 
     QColor TransferFunction(short value);
 
     void keyPressEvent(QKeyEvent* event);
+
+    void genTextureImage();
+    void Load2dTexture();
 private:
     Ui::ViewClass ui;
 
@@ -158,4 +207,31 @@ private:
     Data data;
 
     int layer = 0;
+
+    enum axis
+    {
+        x,
+        y,
+        z
+    };
+
+    axis axisXYZ;
+
+    QImage textureImage;
+
+    GLuint VBOtexture;
+
+    std::string path;
+    
+    
+    
+    /*QSpinBox* minimumSpinBox;
+    QSpinBox* maximumSpinBox;
+
+    QLabel* minimumLabel;
+    QLabel* maximumLabel;*/
+     
+
 };
+
+
